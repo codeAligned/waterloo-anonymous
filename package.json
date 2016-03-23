@@ -1,0 +1,8 @@
+{
+  "name": "waterloo-anonymous",
+  "version": "0.0.1",
+  "description": "1-1 anonymous chatting application made for UWaterloo students",
+  "dependencies": {
+    "express": "^4.10.2"
+  }
+}
