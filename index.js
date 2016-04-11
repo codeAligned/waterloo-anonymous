@@ -1,4 +1,5 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
@@ -6,6 +7,8 @@ var queue = [];    // list of sockets waiting for peers
 var rooms = {};    // map socket.id => room
 var names = {};    // map socket.id => name
 var allUsers = {}; // map socket.id => socket
+
+app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/public/index.html');

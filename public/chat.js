@@ -4,10 +4,16 @@ var room = '';
 var socket = io('http://localhost');
 
 var show_chat_window = function(data) {
+  
+});
+
+var hide_chat_window = function(data) {
+  
 });
 
 socket.on('connect', function (data) { // we are connected, should send our name
     connected = true;
+
     if (username) socket.emit('login', {'username' : username});
 });
 
@@ -27,7 +33,13 @@ socket.on('disconnect', function(data) { // handle server/connection falling
 });
 
 var send_message = function(text) { // method, which you will call when user hits enter in input field
-    if (connected) socket.emit('message', {'text': text});
+    if (connected) {
+      $('form').submit(function(){
+        socket.emit('chat message', $('#m').val());
+        $('#m').val('');
+        return false;
+      });
+    }
 };
 
 var leave_chat = function() { // call this when user want to end current chat
