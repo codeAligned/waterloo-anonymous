@@ -5,14 +5,15 @@ var socket = io('http://localhost');
 
 var show_chat_window = function(data) {
   
-});
+};
 
 var hide_chat_window = function(data) {
   
-});
+};
 
 socket.on('connect', function (data) { // we are connected, should send our name
     connected = true;
+    alert("asiduhaso");
 
     if (username) socket.emit('login', {'username' : username});
 });
