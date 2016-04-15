@@ -2,6 +2,8 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var CAS = require('cas');
+var cas = new CAS({base_url: 'https://cas.uwaterloo.ca/cas', service: 'waterloo-anonymous'});
 
 var queue = [];    // list of sockets waiting for peers
 var rooms = {};    // map socket.id => room
@@ -9,6 +11,23 @@ var names = {};    // map socket.id => name
 var allUsers = {}; // map socket.id => socket
 
 app.use(express.static(__dirname + '/public'));
+
+exports.cas_login = function(req, res) {
+  var ticket = req.param('ticket');
+  if (ticket) {
+    cas.validate(ticket, function(err, status, username) {
+      if (err) {
+        // Handle the error
+        res.send({error: err});
+      } else {
+        // Log the user in
+        res.send({status: status, username: username});
+      }
+    });
+  } else {
+    res.redirect('/');
+  }
+};
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/public/index.html');
